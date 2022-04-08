@@ -21,6 +21,8 @@ class  CsvToJson:
         return csv[csv[self.column_names[0]]==filter_value]
 
     def csv_to_dictionary(self,file_name:str,column_names:list,csv:pd.DataFrame,filtd_data:pd.array,encoding:str='utf-8')->dict:
+        if filtd_data == None:
+            filtd_data=0
         self.file_name=file_name
         self.column_names = column_names
 
@@ -128,7 +130,7 @@ class  CsvToJson:
                 col_0_dict.pop(self.column_names[0])
             loop -= 1
 
-    def csv_to_json_2nd(self, file_name:str, column_names:str)->json:
+    def csv_to_json_2nd(self, file_name:str, column_names:str, nesting:int)->json:
         """Converts a python dictionary into a nested json file.
 
         It works by default with encoding UTF-8, indent thru 4, and it ensure ascii false
@@ -142,9 +144,9 @@ class  CsvToJson:
         """
         self.file_name=file_name
         self.column_names=column_names
-        # TODO: Improve the name system
+        # TODO: Improve the name system, 
         with open('./functions/'+self.file_name+'.json','w') as outfile:
-            json.dump(self.csv_to_dictionary_2nd(file_name, column_names,2),outfile,indent=4,ensure_ascii=False)
+            json.dump(self.csv_to_dictionary_2nd(file_name, column_names,nesting),outfile,indent=4,ensure_ascii=False)
 
 
 # filename = "pizzas"
@@ -155,4 +157,4 @@ file_name:str = "pizzas"
 column_list = ['size','flavor','name','ingredient','price']
 
 converter = CsvToJson()
-converter.csv_to_json_2nd(file_name, column_list)
+converter.csv_to_json_2nd(file_name, column_list,2)
